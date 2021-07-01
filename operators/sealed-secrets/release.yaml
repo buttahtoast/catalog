@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: sealed-secrets
+  namespace: sealed-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: sealed-secrets
+      version: "~1.16.0"
+      sourceRef:
+        kind: HelmRepository
+        name: sealed-secrets
+        namespace: flux-system
+      # interval: 5m
+
+  values:
+    ## Image Registry 
+    # image:
+    #   repository: bitnami/sealed-secrets-controller
+    #   pullPolicy: IfNotPresent
+    
+    ## Limit Resources 
+    resources:
+      limits:
+        cpu: 0.5
+        memory:  512Mi
+      requests:
+        cpu: 0.25
+        memory:  256Mi
+    
+    ## CRD Controller 
+    crd:
+      # crd.create: `true` if the crd resources should be created
+      create: true
+      # crd.keep: `true` if the sealed secret CRD should be kept when the chart is deleted
+      keep: true
+      
+    ## ServiceMonitor
+    serviceMonitor:
+      create: false
+      interval: "10s"
+      labels:
+        app: "sealed-secrets"
+      scrapeTimeout: "10s"

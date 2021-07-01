@@ -1,0 +1,8 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: citrix
+spec:
+  interval: ${citrix_helm_repo_interval:-${helm_repo_interval:-${global_interval:-60m}}}
+  url: https://citrix.github.io/citrix-helm-charts/
