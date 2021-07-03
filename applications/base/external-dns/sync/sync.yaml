@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: external-dns
+spec:
+  path: /catalog/services/applications/environments/${environment:-default}/external-dns/
+  interval: ${kustomization_interval:-${global_interval:-5m}}
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute:
+      external_dns_helm_repo: "${external_dns_helm_repo:-bitnami}"
+      external_dns_helm_repo_ns: "${external_dns_helm_repo_ns:-flux-shared}"
+
+

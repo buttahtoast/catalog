@@ -10,8 +10,8 @@ spec:
       version: "5.1.0^"
       sourceRef:
         kind: HelmRepository
-        name: ${external_dns_helm_repo:-bitnami}
-        namespace: ${external_dns_helm_repo_ns:-flux-shared}
+        name: ${external_dns_helm_repo}
+        namespace: ${external_dns_helm_repo_ns}
       interval: 1m
   upgrade:
     remediation:
